@@ -28,7 +28,7 @@
 |situation_id    |integer|null: false |
 |load_id         |integer|null: false |
 |region_id       |integer|null: false |
-|delivery_days_id|integer|null: false |
+|delivery_id|integer|null: false |
 |selling_price|integer|null: false |
 |user         |references|null:false, foreign_key: true |
 
@@ -36,7 +36,7 @@
 ### Association
 
 - belongs_to :user
-- has_one :purchases
+- has_one :purchase
 ## purchases テーブル
 
 |Column|Type      |Options                       |

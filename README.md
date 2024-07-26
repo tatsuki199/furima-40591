@@ -11,7 +11,7 @@
 |first_name        |string |null:false |
 |last_name_kana    |string |null:false |
 |first_name_kana   |string |null:false |
-|date_of_birth     |integer|null:false |
+|date_of_birth     |date   |null:false |
 
 ### Association
 
@@ -20,44 +20,42 @@
 
 ## items テーブル
 
-|Column|Type  |Options     |
-|-------------|-------|------------|
-|itemname     |string |null: false |
-|explanation  |text   |null: false |
-|detail       |integer|null: false |
-|category     |integer|null: false |
-|situation    |integer|null: false |
-|load         |integer|null: false |
-|region       |integer|null: false |
-|delivery_days|integer|null: false |
+|Column          |Type   |Options     |
+|----------------|-------|------------|
+|name            |string |null: false |
+|explanation     |text   |null: false |
+|category_id     |integer|null: false |
+|situation_id    |integer|null: false |
+|load_id         |integer|null: false |
+|region_id       |integer|null: false |
+|delivery_days_id|integer|null: false |
 |selling_price|integer|null: false |
 |user         |references|null:false, foreign_key: true |
 
 
 ### Association
 
-- belong_to :user
-
+- belongs_to :user
+- has_one :purchases
 ## purchases テーブル
 
-|Column        |Type      |Options                       |
-|--------------|----------|------------------------------|
-|card_number   |string    |null:false                    |
-|date_of_expiry|string    |null:false                    |
-|security_code |string    |null:false                    |
-|user          |references|null:false, foreign_key: true |
+|Column|Type      |Options                       |
+|------|----------|------------------------------|
+|user  |references|null:false, foreign_key: true |
+|item  |references|null:false, foreign_key: true |
 
 ### Association
 
-- belong_to :user
+- belongs_to :user
 - has_one :shipping_address
+- belongs_to :item
 
 ## shipping_addresses テーブル
 
 |Column |Type      |Options                      |
 |----------------|----------|-----------------------------|
 |post_code       |string    |null:false                   |
-|prefectures     |integer   |null:false                   |
+|region_id       |integer   |null:false                   |
 |municipalities  |string    |null:false                   |
 |street_address  |string    |null:false                   |
 |building_name   |string    |                             |
@@ -66,7 +64,7 @@
 
 ### Association
 
-- belong_to :purchase
+- belongs_to :purchase
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
@@ -90,3 +88,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+<!-- |card_number   |string    |null:false                    |
+|date_of_expiry|string    |null:false                    |
+|security_code |string    |null:false                    | -->

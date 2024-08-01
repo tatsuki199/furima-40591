@@ -1,10 +1,10 @@
 class ItemsController < ApplicationController
   def index
-  end 
+  end
 
   def new
   end
-  
+
   def get
   end
 
@@ -15,5 +15,4 @@ class ItemsController < ApplicationController
   def destroy
     redirect_to root_path
   end
-
 end

@@ -18,8 +18,8 @@ class ItemsController < ApplicationController
   def get
   end
 
-  def show
-  end
+  # def show
+  # end
 
   def create
     @item = Item.new(item_params)

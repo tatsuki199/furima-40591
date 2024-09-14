@@ -49,10 +49,20 @@ RSpec.describe PurchaseShippingAddress, type: :model do
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number can't be blank")
       end
-      it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと' do
+      it '電話番号は、10桁以下では保存できないこと' do
         @purchase_shipping_address.telephone_number = '090123456'
         @purchase_shipping_address.valid?
         expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is too short (minimum is 10 characters)")
+      end
+      it '電話番号は、12桁以上では保存できないこと' do
+        @purchase_shipping_address.telephone_number = '090123456789'
+        @purchase_shipping_address.valid?
+        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is too long (maximum is 11 characters)")
+      end
+      it '電話番号は、半角数値以外では保存できない'do
+        @purchase_shipping_address.telephone_number = '０９０１２３４５６７８'
+        @purchase_shipping_address.valid?
+        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is not a number")
       end
       it 'userが紐付いていないと保存できないこと' do
         @purchase_shipping_address.user_id = nil
@@ -62,7 +72,7 @@ RSpec.describe PurchaseShippingAddress, type: :model do
       it 'itemが紐付いていないと保存できないこと' do
         @purchase_shipping_address.item_id = nil
         @purchase_shipping_address.valid?
-        expect(@purchase_shipping_address.errors.full_messages).to include()
+        expect(@purchase_shipping_address.errors.full_messages).to include("Item can't be blank")
       end
       it "tokenが空では登録できないこと" do
         @purchase_shipping_address.token = nil

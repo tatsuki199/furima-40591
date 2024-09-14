@@ -52,17 +52,17 @@ RSpec.describe PurchaseShippingAddress, type: :model do
       it '電話番号は、10桁以下では保存できないこと' do
         @purchase_shipping_address.telephone_number = '090123456'
         @purchase_shipping_address.valid?
-        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is too short (minimum is 10 characters)")
+        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is invalid. must be 10 or 11 digits")
       end
       it '電話番号は、12桁以上では保存できないこと' do
         @purchase_shipping_address.telephone_number = '090123456789'
         @purchase_shipping_address.valid?
-        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is too long (maximum is 11 characters)")
+        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is invalid. must be 10 or 11 digits")
       end
       it '電話番号は、半角数値以外では保存できない'do
         @purchase_shipping_address.telephone_number = '０９０１２３４５６７８'
         @purchase_shipping_address.valid?
-        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is not a number")
+        expect(@purchase_shipping_address.errors.full_messages).to include("Telephone number is invalid. must be 10 or 11 digits")
       end
       it 'userが紐付いていないと保存できないこと' do
         @purchase_shipping_address.user_id = nil

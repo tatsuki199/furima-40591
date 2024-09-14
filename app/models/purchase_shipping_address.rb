@@ -6,7 +6,7 @@ class PurchaseShippingAddress
     validates :user_id, :item_id, :municipalities, :street_address, :token
     validates :post_code, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: 'is invalid. Include hyphen(-)' }
     validates :region_id, numericality: { other_than: 1, message: "can't be blank" }
-    validates :telephone_number, numericality: { only_integer: true }, length: { in: 10..11 }
+    validates :telephone_number, format: { with: /\A\d{10,11}\z/, message: "is invalid. must be 10 or 11 digits" }
   end
 
   def save

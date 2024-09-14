@@ -1,11 +1,11 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:edit, :update,:show,:move_to_index,:destroy]
+  before_action :set_item, only: [:edit, :update, :show, :move_to_index, :destroy]
   before_action :move_to_index, only: [:edit, :destroy]
-before_action :authenticate_user!, only: [:edit, :update, :destroy]
-
+  before_action :move_to_index2, only: [:edit, :destroy]
+  before_action :authenticate_user!, only: [:edit, :update, :destroy]
 
   def index
-    @items = Item.all.order("created_at DESC")
+    @items = Item.all.order('created_at DESC')
   end
 
   def new
@@ -47,7 +47,8 @@ before_action :authenticate_user!, only: [:edit, :update, :destroy]
   private
 
   def item_params
-    params.require(:item).permit(:image, :name, :explanation, :category_id, :situation_id, :load_id, :region_id, :delivery_id, :selling_price).merge(user_id: current_user.id)
+    params.require(:item).permit(:image, :name, :explanation, :category_id, :situation_id, :load_id, :region_id, :delivery_id,
+                                 :selling_price).merge(user_id: current_user.id)
   end
 
   def set_item
@@ -55,9 +56,12 @@ before_action :authenticate_user!, only: [:edit, :update, :destroy]
   end
 
   def move_to_index
-    unless current_user.id == @item.user_id 
+    return if current_user.id == @item.user_id
+    redirect_to action: :index
+  end
+  def move_to_index2
+    if current_user.id == @item.user_id && @item.purchase.present?
       redirect_to action: :index
     end
   end
-
 end
